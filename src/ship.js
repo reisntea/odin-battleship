@@ -19,6 +19,10 @@ class Ship {
   isSunk() {
     return this.#sunk;
   }
+
+  get length() {
+    return this.#length;
+  }
 }
 
 export { Ship };
