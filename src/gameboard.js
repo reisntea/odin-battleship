@@ -2,7 +2,7 @@ import { Ship } from "./ship.js";
 
 // Creates a 10x10 2d array with all the values as -1 by default
 // Spaces with ships are given a number from 0 to 4 referring to ships in the ships array
-function Gameboard () {
+function Gameboard() {
   const rows = 10;
   const columns = 10;
   const board = [];
