@@ -7,5 +7,61 @@
 </head>
 <body>
     <h1>Battleship</h1>
+    <p id="description">Place your ships on the board before starting a game. Coordinates go from 0 to 9, top to bottom, and left to right.</p>
+    <div class="set-up">
+        <div id="ship-options">
+            <div id="ships">
+                <div class="ship">
+                    <p>Carrier</p>
+                </div>
+                <div class="ship">
+                    <p>Battleship</p>
+                </div>
+                <div class="ship">
+                    <p>Cruiser</p>
+                </div>
+                <div class="ship">
+                    <p>Submarine</p>
+                </div>
+                <div class="ship">
+                    <p>Destroyer</p>
+                </div>
+            </div>
+            <div id="alignment">
+                <div class="align-option">
+                    <p>Horizontal</p>
+                </div>
+                <div class="align-option">
+                    <p>Vertical</p>
+                </div>
+            </div>
+        </div>
+        <div id="set-up-grid">
+        </div>
+        <div id="form">
+            <div id="coordinates">
+                <p>Coordinates: </p>
+                <div>
+                    <p>x: </p>
+                    <input type="number" id="x-coordinate" min="0" max="9">
+                </div>
+                <div>
+                   <p>y: </p>
+                    <input type="number" id="y-coordinate" min="0" max="9"> 
+                </div>
+            </div>
+            <div id="form-options">
+                <div>
+                    <p>Add</p>
+                </div>
+                <div>
+                    <p>Reset</p>
+                </div>
+                <div>
+                    <p>Done</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

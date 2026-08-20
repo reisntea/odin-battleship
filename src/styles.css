@@ -1,0 +1,92 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.set-up {
+  display: flex;
+  gap: 10px;
+}
+
+#ship-options {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#ships , #alignment {
+  flex-shrink: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.ship, .align-option, #form-options > div {
+  border-radius: 2px;
+  padding: 10px;
+  border: 1px solid black;
+  text-align: center;
+}
+
+.align-option > p {
+  margin: 0;
+}
+
+#form {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#coordinates > p {
+  margin: 0;
+}
+
+#coordinates > div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+input {
+  width: 50%;
+  border: none;
+  outline: none;
+  border-bottom: 2px solid  black;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+#form-options {
+  flex-grow: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Is added to whichever option is selected */
+.selected {
+  background-color: lightgray;
+}
+
+#set-up-grid {
+  height: 100%;
+  width: 600px;
+}
+
+.row {
+  display: flex;
+}
+
+.boxy {
+  border: 2px solid lightblue;
+  aspect-ratio: 1 / 1;
+  flex: 1 1 auto;
+}
+
+/* Hides setup or game depending on phase */
+.hidden {
+  display: none;
+}
