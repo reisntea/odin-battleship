@@ -12,7 +12,7 @@ function Player(isComputer) {
   }
 
   const placeShip = (index, x, y, horizontal) => {
-    board.placeShip(index, x, y, horizontal);
+    return board.placeShip(index, x, y, horizontal);
   }
 
   const receiveAttack = (x, y) => {
@@ -23,7 +23,11 @@ function Player(isComputer) {
     return board.areAllSunk();
   }
 
-  return { isComp, placeShip, receiveAttack, areAllSunk };
+  const getBoard = () => {
+    return board.getBoard();
+  }
+
+  return { isComp, placeShip, receiveAttack, areAllSunk, getBoard };
 }
 
 export { Player };

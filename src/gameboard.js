@@ -22,22 +22,22 @@ function Gameboard() {
   // horizontal is a boolean which determines if the ship is placed horizontally or vertically
   // returns early if a ship can't be placed
   const placeShip = (index, x, y, horizontal) => {
-    spaces = ships[index].length;
+    const spaces = ships[index].length;
     if (horizontal) {
-      // Look at spaces beforehand to see if a ship can be placed and return if not possible
+      // Look at spaces beforehand to see if a ship can be placed and returns a value as an error if not possible (error value is used by screenController DOM functions)
       for (let i = 0; i < spaces; i++) {
-        if (x + i > 10) return;
-        if (board[y][x + i] !== -1) return;
+        if (x + i > 10) return -1;
+        if (board[y][x + i] !== -1) return -2;
       }
       // If all spaces are good then place the ship
       for (let j = 0; j < spaces; j++) {
         board[y][x + j] = index;
       }
     } else {
-      // Look at spaces beforehand to see if a ship can be placed and return if not possible
+      // Look at spaces beforehand to see if a ship can be placed false and returns a value as an error if not possible (error value is used by screenController DOM functions)
       for (let i = 0; i < spaces; i++) {
-        if (y+ i > 10) return;
-        if (board[y + i][x] !== -1) return;
+        if (y+ i > 10) return -1;
+        if (board[y + i][x] !== -1) return -2;
       }
       // If all spaces are good then place the ship
       for (let j = 0; j < spaces; j++) {
@@ -67,7 +67,11 @@ function Gameboard() {
     return ships.every((ship) => ship.isSunk());
   }
 
-  return { placeShip, receiveAttack, areAllSunk }
+  const getBoard = () => {
+    return board;
+  }
+
+  return { placeShip, receiveAttack, areAllSunk, getBoard }
 }
 
 export { Gameboard };
