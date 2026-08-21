@@ -25,8 +25,8 @@ function Gameboard() {
     const spaces = ships[index].length;
     if (horizontal) {
       // Look at spaces beforehand to see if a ship can be placed and returns a value as an error if not possible (error value is used by screenController DOM functions)
+      if (x + spaces > 10) return -1;
       for (let i = 0; i < spaces; i++) {
-        if (x + i > 10) return -1;
         if (board[y][x + i] !== -1) return -2;
       }
       // If all spaces are good then place the ship
@@ -35,8 +35,8 @@ function Gameboard() {
       }
     } else {
       // Look at spaces beforehand to see if a ship can be placed false and returns a value as an error if not possible (error value is used by screenController DOM functions)
+      if (y + spaces > 10) return -1;
       for (let i = 0; i < spaces; i++) {
-        if (y+ i > 10) return -1;
         if (board[y + i][x] !== -1) return -2;
       }
       // If all spaces are good then place the ship

@@ -116,6 +116,11 @@ input {
   background-color: gray;
 }
 
+.game {
+  display: flex;
+  justify-content: space-between;
+}
+
 /* Hides setup or game depending on phase */
 .hidden {
   display: none;

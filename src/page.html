@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Battleship</h1>
-    <p id="description">Place your ships on the board before starting a game. <b>Coordinates go from 0 to 9, top to bottom, and left to right.</b> To undo placements press reset.</p>
+    <p id="description">Place your ships on the board before starting a game. <b>Coordinates go from 0 to 9, top to bottom, and left to right.</b> Press on a square to get its coordinates. To undo placements press reset.</p>
     <!-- Set up phase elements -->
     <div class="set-up">
         <div id="ship-options-container">
@@ -69,6 +69,10 @@
         <div id="error-container">
             <p id="error-text"></p>
         </div>
+    </div>
+    <div class="game">
+        <div id="player-grid"></div>
+        <div id="computer-grid"></div>
     </div>
 </body>
 </html>

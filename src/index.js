@@ -32,6 +32,7 @@ function ScreenController() {
       box.classList.add("boxy");
       box.setAttribute('data-x', `${x}`);
       box.setAttribute('data-y', `${y}`);
+
       if (humanBoard[y][x] !== -1) box.classList.add("box-ship"); // Checks if the square on the person's board has a ship, add the class to it
       row.appendChild(box);
     }
@@ -47,6 +48,15 @@ function ScreenController() {
       setUpGrid.appendChild(row);
     }
   }
+
+  // Listens to when a box in the setup grid is clicked and fills in it's coordinates in the inputs
+  // Made here instead of in updateSetUpGrid because I don't want a hundred event listeners for each box
+  setUpGrid.addEventListener("click", () => {
+    const clickedBox = event.target.closest(".boxy");
+    if (!clickedBox) return;
+    xInput.value = clickedBox.dataset.x;
+    yInput.value = clickedBox.dataset.y;
+  });
 
   // Event listener for the ships on the left side of the grid
   shipOptions.addEventListener("click", (event) => {
@@ -220,6 +230,8 @@ function ScreenController() {
       return;
     }
     console.log("yippee!!");
+    // document.querySelector(".set-up").classList.add("hidden");
+    playGame(humanPlayer);
   }
 
   // Displays the corresponding error using the num passed from the set up functions
@@ -253,6 +265,10 @@ function ScreenController() {
   }
 
   setUp();
+}
+
+function playGame(player) {
+  let computerPlayer = Player(true);
 }
 
 ScreenController();
