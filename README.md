@@ -1,2 +1,4 @@
 # odin-battleship
 Project: Battleship from TOP. Practicing JS and TDD by recreating the Battleship board game.
+
+I feel a bit mixed about my work for this project. I think I could've done more TDD, at the start I made a lot of tests but when it got to making the DOM elements I completely stopped doing any TDD. I also feel like my code could be better in the index, the code is too tightly coupled and just messy overall. However, I think that the UI though really simple, is nice for the most part, and I'm glad that I made it as easy as I could to place ships wherever the user wants to. Overall, it still feels like there's a lot I can still learn, but for the most part, I like what I did for this project.
