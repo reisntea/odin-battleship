@@ -22,6 +22,10 @@ function ScreenController() {
 
   let humanPlayer = Player(false);   // Representative for the person playing
 
+  const setUpContainer = document.querySelector(".set-up"); // Container for set up
+  const playGameContainer = document.querySelector(".game"); // Container for play game
+  const winDialog = document.getElementById("done-game"); // Dialog to tell winner
+
   // Updates the setup grid with boxes
   const updateSetUpGrid = () => {
     setUpGrid.replaceChildren(); // Clears the grid
@@ -212,10 +216,10 @@ function ScreenController() {
       x = Math.floor(Math.random() * 10);
       y = Math.floor(Math.random() * 10);
 
-      shipStatus = humanPlayer.placeShip(shipsIndex, x, y, currHorizontal); // Attempt to place ship
+      shipStatus = humanPlayer.placeShip(shipsIndex, x, y, randHorizontal); // Attempt to place ship
 
       if (shipStatus !== -1 && shipStatus !== -2) { // Checks if ship was placed successfully and goes to the next ship if so
-        shipsPlaced.push(currShip);
+        shipsPlaced.push(shipsIndex);
         shipsIndex++;
         updateSetUpGrid();
       }
@@ -229,8 +233,11 @@ function ScreenController() {
       displayError(5);
       return;
     }
-    console.log("yippee!!");
-    // document.querySelector(".set-up").classList.add("hidden");
+
+    // Hides the setup and shows the playgame div
+    // Then runs the function to play game passing the player's data into it
+    setUpContainer.classList.add("hidden");
+    playGameContainer.classList.remove("hidden");
     playGame(humanPlayer);
   }
 
@@ -257,6 +264,15 @@ function ScreenController() {
     }
   }
 
+  // Win dialog only appears when the playGame function is done, so this checks if it's been clicked
+  // If it has that means the person wants to play another game so it closes the dialog, shows the setup, hides the game, and resets everything
+  winDialog.addEventListener("click", () => {
+    winDialog.close();
+    playGameContainer.classList.add("hidden");
+    setUpContainer.classList.remove("hidden");
+    resetSetUp();
+  });
+
   // Creates the setup
   function setUp() {
     updateSetUpGrid();
@@ -267,8 +283,170 @@ function ScreenController() {
   setUp();
 }
 
+
+// Plays a game of battleship
+// Separated from screen controller because it's too big
 function playGame(player) {
-  let computerPlayer = Player(true);
+  let computerPlayer = Player(true); // Makes a computer player
+  const playGame = document.querySelector(".game"); // Container for the game
+  const winDialog = document.getElementById("done-game"); // Dialog that displays who won
+  const winText = document.getElementById("winner");
+
+  playGame.replaceChildren(); // Clears the div for the game. To remove any event listeners and things that need to be replaced.
+  const personGrid = document.createElement("div");
+  const computerGrid = document.createElement("div");
+
+  personGrid.id = "player-grid";
+  computerGrid.id = "computer-grid";
+
+  // Add containers for both player's grids
+  playGame.appendChild(personGrid);
+  playGame.appendChild(computerGrid);
+
+  // Randomizes the computer's ships, similar to the randomize setup function
+  function randomizeComputerShips () {
+    let shipsIndex = 0; // Refers to index in gameboard
+    let randHorizontal = false;
+    let x = 0;
+    let y = 0;
+    let shipStatus = "";
+    const shipsPlaced = [];
+
+    // Repeats until all ships have been placed
+    while (shipsPlaced.length < 5) {
+      randHorizontal = Math.random() < 0.5 ? true : false; // Randomly decide if it should be horizontal or not
+      // Generate random coordinates
+      x = Math.floor(Math.random() * 10);
+      y = Math.floor(Math.random() * 10);
+
+      shipStatus = computerPlayer.placeShip(shipsIndex, x, y, randHorizontal); // Attempt to place ship
+
+      if (shipStatus !== -1 && shipStatus !== -2) { // Checks if ship was placed successfully and goes to the next ship if so
+        shipsPlaced.push(shipsIndex);
+        shipsIndex++;
+      }
+    }
+  }
+
+  // Updates the player's grid
+  function updatePlayerGrid() {
+    personGrid.replaceChildren();
+    const personBoard = player.getBoard();
+
+    function createBox(row, x, y) {
+      const box = document.createElement("div");
+      box.classList.add("boxy");
+      box.setAttribute('data-x', `${x}`);
+      box.setAttribute('data-y', `${y}`);
+
+      // If statements are organized this way so that it can show a ship with a hit marker
+      if (personBoard[y][x] === -3) {
+        box.classList.add("miss");
+      } else if (personBoard[y][x] !== -1) {
+        box.classList.add("box-ship");
+      }
+      if (personBoard[y][x] === -2) {
+        box.classList.add("hit");
+      }
+      row.appendChild(box);
+    }
+
+    // Creates the rows that get added to the grid
+    for (let i = 0; i < 10; i++) {
+      const row = document.createElement("div");
+      row.classList.add("row");
+      // Creates the squares that get added to each row
+      for (let j = 0; j < 10; j++) {
+        createBox(row, j, i);
+      }
+      personGrid.appendChild(row);
+    }
+  }
+
+  // Updates computer's grid
+  function updateComputerGrid() {
+    computerGrid.replaceChildren();
+    const computerBoard = computerPlayer.getBoard();
+
+    function createBox(row, x, y) {
+      const box = document.createElement("div");
+      box.classList.add("boxy");
+      box.setAttribute('data-x', `${x}`);
+      box.setAttribute('data-y', `${y}`);
+
+      // Doesn't show the computer's ships only hits or misses
+      if (computerBoard[y][x] === -3) {
+        box.classList.add("miss");
+      } else if (computerBoard[y][x] === -2) {
+        box.classList.add("hit");
+      }
+
+      row.appendChild(box);
+    }
+
+    // Creates the rows that get added to the grid
+    for (let i = 0; i < 10; i++) {
+      const row = document.createElement("div");
+      row.classList.add("row");
+      // Creates the squares that get added to each row
+      for (let j = 0; j < 10; j++) {
+        createBox(row, j, i);
+      }
+      computerGrid.appendChild(row);
+    }
+  }
+
+  // Listener for the computer's grid container
+  computerGrid.addEventListener("click", () => {
+    const clickedBox = event.target.closest(".boxy");
+    if (!clickedBox) return;
+    if (clickedBox.classList.contains("hit") || clickedBox.classList.contains("miss")) return;
+    attackComputer(clickedBox.dataset.x, clickedBox.dataset.y); // Uses the coordinate's the person clicked on
+  });
+
+  // Runs a turn of battleship
+  function attackComputer(x, y) {
+    // Runs the person's attack first
+    computerPlayer.receiveAttack(x, y);
+    updateComputerGrid();
+
+    if (computerPlayer.areAllSunk()) { // Checks if the person won
+      declareWinner();
+    }
+
+    // Gets a random shot
+    // If the shot is already in player's shots then it gets another random shot
+    // Repeats until it generates a unique shot
+    const playerShots = player.getShots(); // Returns array of all the shots the players board took
+    let randShot = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)];
+    while (playerShots.some(shot => (shot[0] === randShot[0] && shot[1] === randShot[1]))) {
+      randShot = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)];
+    }
+
+    // Runs the computer's shot
+    player.receiveAttack(randShot[0], randShot[1]);
+    updatePlayerGrid();
+
+    if (player.areAllSunk()) { // Checks if the computer won
+      declareWinner();
+    }
+  }
+
+  function declareWinner() {
+    // Checks who won and changes the text accordingly
+    if (computerPlayer.areAllSunk()) {
+      winText.textContent = "You Win!";
+    } else {
+      winText.textContent = "Computer Wins!";
+    }
+
+    // Shows the win dialog
+    winDialog.showModal();
+  }
+
+  randomizeComputerShips();
+  updatePlayerGrid();
+  updateComputerGrid();
 }
 
 ScreenController();

@@ -96,7 +96,7 @@ input {
   background-color: lightgray;
 }
 
-#set-up-grid {
+#set-up-grid, #player-grid, #computer-grid {
   height: 100%;
   width: 600px;
 }
@@ -118,10 +118,28 @@ input {
 
 .game {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+.hit {
+  background-image: radial-gradient(red 8px, transparent 8px); /* Dot color and size */
+  background-repeat: no-repeat;
+  background-position: center; /* Centers the single dot */
+}
+
+.miss {
+  background-image: radial-gradient(darkblue 8px, transparent 8px); /* Dot color and size */
+  background-repeat: no-repeat;
+  background-position: center; /* Centers the single dot */
 }
 
 /* Hides setup or game depending on phase */
 .hidden {
   display: none;
+}
+
+dialog {
+  text-align: center;
+  cursor: pointer;
 }

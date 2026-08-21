@@ -4,7 +4,7 @@ import { Gameboard } from "./gameboard.js";
 // Used by index.js to control both gameboards for human and computer players
 // isComputer is a boolean value
 function Player(isComputer) {
-  const board = Gameboard();
+  const gameboard = Gameboard();
   const computerPlayer = isComputer;   // To make a distinction between the computer player and human player
 
   const isComp = () => {
@@ -12,22 +12,26 @@ function Player(isComputer) {
   }
 
   const placeShip = (index, x, y, horizontal) => {
-    return board.placeShip(index, x, y, horizontal);
+    return gameboard.placeShip(index, x, y, horizontal);
   }
 
   const receiveAttack = (x, y) => {
-    return board.receiveAttack(x, y);
+    return gameboard.receiveAttack(x, y);
   }
 
   const areAllSunk = () => {
-    return board.areAllSunk();
+    return gameboard.areAllSunk();
   }
 
   const getBoard = () => {
-    return board.getBoard();
+    return gameboard.getBoard();
   }
 
-  return { isComp, placeShip, receiveAttack, areAllSunk, getBoard };
+  const getShots = () => {
+    return gameboard.getShots();
+  }
+
+  return { isComp, placeShip, receiveAttack, areAllSunk, getBoard, getShots };
 }
 
 export { Player };

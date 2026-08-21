@@ -55,10 +55,12 @@ function Gameboard() {
 
     if (board[y][x] === -1) {
       misses.push(shots.length - 1);
+      board[y][x] = -3 // Indicating that the square was a miss
       return false;  // if miss return false
     };
 
     ships[board[y][x]].hit();
+    board[y][x] = -2 // Indicating that the square was hit
     return true; // if hit return true
   }
 
@@ -71,7 +73,11 @@ function Gameboard() {
     return board;
   }
 
-  return { placeShip, receiveAttack, areAllSunk, getBoard }
+  const getShots = () => {
+    return shots;
+  }
+
+  return { placeShip, receiveAttack, areAllSunk, getBoard, getShots }
 }
 
 export { Gameboard };
